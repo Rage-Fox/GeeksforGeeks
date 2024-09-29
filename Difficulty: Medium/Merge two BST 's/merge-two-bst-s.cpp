@@ -29,7 +29,7 @@ Node* buildTree(string str) {
     for (string str; iss >> str;)
         ip.push_back(str);
 
-    // Create the root of the tree
+    // Create the root of the tree.....
     Node* root = new Node(stoi(ip[0]));
 
     // Push the root to the queue
@@ -94,22 +94,41 @@ struct Node {
 */
 class Solution {
   public:
+    void inorder(Node *root,vector<int>&ans){
+         if(root==NULL){
+             return;
+         }
+         inorder(root->left,ans);
+         ans.push_back(root->data);
+         inorder(root->right,ans);
+    }
     // Function to return a list of integers denoting the node
     // values of both the BST in a sorted order.
-    void inorder(Node *root,vector<int> &ans){
-        if(!root)
-            return;
-        inorder(root->left,ans);
-        ans.push_back(root->data);
-        inorder(root->right,ans);
-    }
     vector<int> merge(Node *root1, Node *root2) {
         // Your code here
-        vector<int> ans;
-        inorder(root1,ans);
-        inorder(root2,ans);
-        sort(ans.begin(),ans.end());
-        return ans;
+        vector<int>ans1,ans2,ans3;
+        inorder(root1,ans1);
+        inorder(root2,ans2);
+        int n=ans1.size(),m=ans2.size(),i=0,j=0;
+        while(i<n && j<m){
+            if(ans1[i]>=ans2[j]){
+                ans3.push_back(ans2[j]);
+                j++;
+            }
+            else{
+                ans3.push_back(ans1[i]);
+                i++;
+            }
+        }
+        while(i<n){
+            ans3.push_back(ans1[i]);
+            i++;
+        }
+        while(j<m){
+            ans3.push_back(ans2[j]);
+            j++;
+        }
+        return ans3;
     }
 };
 
