@@ -4,11 +4,10 @@ using namespace std;
 
 
 // } Driver Code Ends
-class Solution
-{   
-    public: 
-    //Function to return a list of integers denoting spiral traversal of matrix.
-    vector<int> spirallyTraverse(vector<vector<int>> a){
+class Solution {
+  public:
+    vector<int> spirallyTraverse(vector<vector<int> > &a) {
+        // code here
         int R=a.size(),C=a[0].size();
         int startR = 0,startC = 0,endR = R-1,endC = C-1,cnt = 0,total = R * C;
         vector<int> ans;
@@ -39,7 +38,6 @@ class Solution
     }
 };
 
-
 //{ Driver Code Starts.
 int main() {
     int t;
@@ -48,9 +46,10 @@ int main() {
     while (t--) {
         int r, c;
         cin >> r >> c;
-        vector<vector<int>> matrix(r, vector<int>(c, 0));
+        vector<vector<int>> matrix(r);
 
         for (int i = 0; i < r; i++) {
+            matrix[i].assign(c, 0);
             for (int j = 0; j < c; j++) {
                 cin >> matrix[i][j];
             }
@@ -61,6 +60,9 @@ int main() {
         for (int i = 0; i < result.size(); ++i)
             cout << result[i] << " ";
         cout << endl;
+
+        cout << "~"
+             << "\n";
     }
     return 0;
 }
