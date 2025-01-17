@@ -1,6 +1,4 @@
 //{ Driver Code Starts
-// Initial template for C++
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -10,66 +8,52 @@ using namespace std;
 
 class Solution {
   public:
-    // nums: given vector
-    // return the Product vector P that hold product except self at each index
-    vector<long long int> productExceptSelf(vector<long long int>& nums) {
+    vector<int> productExceptSelf(vector<int>& arr) {
         // code here
-        vector<long long int>v;
-        long long int pro=1;
-        int zerocnt=0;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]!=0){
-            pro=pro*nums[i];
-            }
-            else{
-                zerocnt++;
-            }
+        int n = arr.size();
+        vector<int> l_prod(n+2,1),r_prod(n+2,1),ans(n,1);
+        for(int i=0;i<n;i++){
+            l_prod[i+1]=l_prod[i]*arr[i];
+            r_prod[n-i]=r_prod[n-i+1]*arr[n-1-i];
         }
-        for(int i=0;i<nums.size();i++){
-            if(zerocnt>0){
-                if(nums[i]!=0){
-                    v.push_back(0);
-                }
-                else{
-                    if(zerocnt==1){
-                        v.push_back(pro);
-                    }
-                    else{
-                        v.push_back(0);
-                    }
-                }
-            }
-            else{
-                v.push_back(pro/nums[i]);
-            }
+        for(int i=0;i<n;i++){
+            ans[i]=l_prod[i]*r_prod[i+2];
         }
-        return v;
+        return ans;
     }
 };
 
 
 //{ Driver Code Starts.
+
 int main() {
-    int t; // number of test cases
+
+    int t;
     cin >> t;
+    cin.ignore();
+
     while (t--) {
-        int n; // size of the array
-        cin >> n;
-        vector<long long int> arr(n), vec(n);
+        vector<int> arr;
+        string input;
+        getline(cin, input);
+        stringstream ss(input);
+        int number;
 
-        for (int i = 0; i < n; i++) // input the array
-        {
-            cin >> arr[i];
+        while (ss >> number) {
+            arr.push_back(number);
         }
-        Solution obj;
-        vec = obj.productExceptSelf(arr); // function call
 
-        for (int i = 0; i < n; i++) // print the output
-        {
-            cout << vec[i] << " ";
+        Solution obj;
+        vector<int> res = obj.productExceptSelf(arr);
+
+        for (int i = 0; i < res.size(); i++) {
+            cout << res[i] << " ";
         }
         cout << endl;
+        cout << "~\n";
     }
+
     return 0;
 }
+
 // } Driver Code Ends
