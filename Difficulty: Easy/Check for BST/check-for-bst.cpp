@@ -19,20 +19,33 @@ struct Node {
 // } Driver Code Ends
 class Solution {
   public:
-    // Function to check whether a Binary Tree is BST or not.
-    bool isBSTHelper(Node* root,int minRange,int maxRange){
-        if(!root)
-            return true;
-        bool isLeftSubTreeBST=isBSTHelper(root->left,minRange,root->data);
-        bool isRightSubTreeBST=isBSTHelper(root->right,root->data,INT_MAX);
-        if(root->data<=minRange or root->data>=maxRange){
-            return false;
+    // bool isBSTHelper(Node* root,int minRange,int maxRange){
+    //     if(!root)
+    //         return true;
+    //     if(root->data<=minRange || root->data>=maxRange){
+    //         return false;
+    //     }
+    //     return isBSTHelper(root->left,minRange,root->data) && isBSTHelper(root->right,root->data,INT_MAX);
+    // }
+    void inorder(Node*root,bool &f,int& prev){
+        if(!root || f == false){
+            return;
         }
-        return isLeftSubTreeBST and isRightSubTreeBST;
+        inorder(root->left,f,prev);
+        if(prev >= root->data){
+            f = false;
+            return;
+        }
+        prev = root->data;
+        inorder(root->right,f,prev);
     }
+    // Function to check whether a Binary Tree is BST or not.
     bool isBST(Node* root) {
         // Your code here
-        return isBSTHelper(root,INT_MIN,INT_MAX);
+        bool f = true;
+        int prev = -1;
+        inorder(root,f,prev);
+        return f;
     }
 };
 
@@ -131,6 +144,7 @@ int main() {
 
         else
             cout << "false\n";
+        cout << "~" << endl;
     }
     return 0;
 }
