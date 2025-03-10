@@ -1,13 +1,16 @@
 //{ Driver Code Starts
+// Initial Template for C++
 #include <bits/stdc++.h>
 using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    int editDistance(string str1, string str2) {
-        // Code here
+    // Function to compute the edit distance between two strings
+    int editDistance(string& str1, string& str2) {
+        // code here
         int n=str1.size(),m=str2.size();
         int dp[n+1][m+1];
         for(int i=0;i<=n;i++){
@@ -30,16 +33,23 @@ class Solution {
     }
 };
 
+
 //{ Driver Code Starts.
+
 int main() {
+
     int T;
     cin >> T;
+    cin.ignore();
     while (T--) {
-        string s, t;
-        cin >> s >> t;
+        string s1;
+        getline(cin, s1);
+        string s2;
+        getline(cin, s2);
         Solution ob;
-        int ans = ob.editDistance(s, t);
+        int ans = ob.editDistance(s1, s2);
         cout << ans << "\n";
+        cout << "~" << endl;
     }
     return 0;
 }
