@@ -2,15 +2,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
 // } Driver Code Ends
+
 class Solution {
   public:
     int n,m;
     void solve(int i,int j,vector<vector<char>>&grid){
-        if(i>=n || i<0 || j<0 || j>=m || grid[i][j]=='0'){
+        if(i>=n || i<0 || j<0 || j>=m || grid[i][j]=='W'){
             return;
         }
-        grid[i][j]='0';
+        grid[i][j]='W';
         solve(i-1,j,grid);
         solve(i,j-1,grid);
         solve(i+1,j,grid);
@@ -20,15 +22,14 @@ class Solution {
         solve(i+1,j+1,grid);
         solve(i-1,j-1,grid);
     }
-    // Function to find the number of islands.
-    int numIslands(vector<vector<char>>& grid) {
+    int countIslands(vector<vector<char>>& grid) {
         // Code here
         n=grid.size();
         m=grid[0].size();
         int count=0;
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(grid[i][j]!='0'){
+                if(grid[i][j]!='W'){
                     count++;
                     solve(i,j,grid);
                 }
@@ -37,6 +38,7 @@ class Solution {
         return count;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
@@ -52,8 +54,11 @@ int main() {
             }
         }
         Solution obj;
-        int ans = obj.numIslands(grid);
+        int ans = obj.countIslands(grid);
         cout << ans << '\n';
+
+        cout << "~"
+             << "\n";
     }
     return 0;
 }
