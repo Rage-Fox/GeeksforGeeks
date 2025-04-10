@@ -7,52 +7,47 @@ using namespace std;
 
 // } Driver Code Ends
 
-struct cmp{
-    bool operator()(pair<int, int> &a, pair<int, int> &b){
-        if(a.first > b.first)
-            return true;
-        return false;
-    }  
-    
-};
 class Solution {
   public:
-    int manD(int i, int j, vector<vector<int>> &h){
-        int x = abs(h[i][0] - h[j][0]);
-        int y = abs(h[i][1] - h[j][1]);
-        return x+y;
-    }
     int minCost(vector<vector<int>>& houses) {
         // code here
-        int n = houses.size();
-        sort(houses.begin(), houses.end());
-        vector<int> dis(n, INT_MAX);
-        vector<bool> visited(n, false);
-        dis[0] = 0;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
-        pq.push({0, 0});
-        int ans = 0;
-        while(!pq.empty()){
-            auto z = pq.top();
-            pq.pop();
-            if(visited[z.second])
-                continue;
-            ans += (z.first);
-            visited[z.second] = true;
-            for(int i=0;i<n;i++){
-                if(!visited[i]){
-                    int md = manD(z.second, i, houses);
-                    int t = z.first;
-                    if(md < dis[i]){
-                        dis[i] = md;
-                        pq.push({dis[i], i});
-                    }
-                    
-                }
-                
+        // Prim's Algorithm
+        int V = houses.size();
+        vector<vector<pair<int,int>>> adj(V);
+        for(int i=0; i<V; i++){
+            for(int j=i+1; j<V; j++){
+                int x1 = houses[i][0];
+                int y1 = houses[i][1];
+                int x2 = houses[j][0];
+                int y2 = houses[j][1];
+                int d = abs(x1-x2) + abs(y1-y2);
+                adj[i].push_back({j,d});
+                adj[j].push_back({i,d});
             }
         }
-        return ans;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+        pq.push({0,0});
+        vector<bool> inMST(V,false);
+        int sum = 0;
+        while(!pq.empty()){
+            auto p = pq.top();
+            pq.pop();
+            int wt = p.first;
+            int u = p.second;
+            if(inMST[u] == true){
+                continue;
+            }
+            inMST[u] = true;
+            sum += wt;
+            for(auto& node: adj[u]){
+                int nbr = node.first;
+                int w = node.second;
+                if(inMST[nbr] == false){
+                    pq.push({w,nbr});
+                }
+            }
+        }
+        return sum;
     }
 };
 
