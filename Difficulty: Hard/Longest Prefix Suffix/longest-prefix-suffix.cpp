@@ -1,50 +1,27 @@
-//{ Driver Code Starts
-// Initial template for C++
-
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-
-// User function template for C++
-
 class Solution {
   public:
-    int lps(string str) {
-        // Your code goes here
-        int n = str.size();
-        string rev = str;
-        reverse(rev.begin(), rev.end());
-        for (int len = n - 1; len > 0; len--) {
-            if (memcmp(str.c_str(), str.c_str() + n - len, len) == 0) {
-                return len;
+    int getLPSLength(string &s) {
+        // code here
+        int n=s.size();
+        vector<int> ans(n,0);
+        int prefix=0,suffix=1;
+        while(suffix<n){
+            if(s[prefix]==s[suffix]){
+                ans[suffix]=prefix+1;
+                prefix++;
+                suffix++;
+                
+            }
+            else{
+                if(prefix==0){
+                    ans[suffix]=0;
+                    suffix++;
+                }
+                else{
+                    prefix=ans[prefix-1];
+                }
             }
         }
-        return 0; 
+        return ans[n-1];
     }
 };
-
-//{ Driver Code Starts.
-
-int main() {
-
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
-    int t;
-    cin >> t;
-    while (t--) {
-        string str;
-        cin >> str;
-
-        Solution ob;
-
-        cout << ob.lps(str) << "\n";
-    }
-
-    return 0;
-}
-
-// } Driver Code Ends
