@@ -1,33 +1,28 @@
 class Solution {
   public:
-    long long int solve(string &str, int n, int k){
-        // intially windows size
-        int i = 0, j = 0;
-        long long int ans = 0;
-        long long int dist = 0;
-        int hash_cnt[26] = {0};
-        while (j < n){
-            hash_cnt[str[j] - 'a']++;
-            if (hash_cnt[str[j] - 'a'] == 1)
-                dist++;
-            // decrease the size of window
-            while (dist > k){
-                hash_cnt[str[i] - 'a']--;
-                if (hash_cnt[str[i] - 'a'] == 0)
-                    dist--;
-                i++;
+    int solve(string& str,int k){
+        int n=str.length();
+        vector<int> mp(26,0);
+        int l=0,r=0,cnt=0,ans=0;
+        while(r<n){
+            mp[str[r]-'a']++;
+            if(mp[str[r]-'a']==1){
+                cnt++;
             }
-            ans += j - i + 1;
-            j++;
+            while(cnt>k){
+                mp[str[l]-'a']--;
+                if(mp[str[l]-'a']==0){
+                    cnt--;
+                }
+                l++;
+            }
+            r++;
+            ans+=r-l+1;
         }
         return ans;
     }
     int countSubstr(string& s, int k) {
-        // code here.
-        int n = s.size();
-        // The main condition now is to get exactly k unique characters
-        // so you need to remove the count of substrings with atmost k-1 characters from k characters ones
-        // and thats represented by function calcCount(s,k) - calcCount(s,k-1)
-        return solve(s, n, k) - solve(s, n, k - 1);
+        // code here
+        return solve(s,k)-solve(s,k-1);
     }
 };
