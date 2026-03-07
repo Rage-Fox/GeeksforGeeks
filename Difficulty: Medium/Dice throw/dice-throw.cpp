@@ -2,17 +2,17 @@ class Solution {
   public:
     int noOfWays(int m, int n, int x) {
         // code here
-        vector<vector<int>> dp (x + 1, vector<int> (n + 1, 0));
-        dp[0][0] = 1;
-        for(int i = 1; i <= x; i++){
-            for(int j = 1; j <= n; j++){
-                for(int k = 1; k <= m; k++){
-                    if(i >= k){
-                        dp[i][j] += dp[i - k][j -  1];
+        vector<vector<int>> dp(n+1,vector<int>(x+1,0));
+        dp[0][0]=1;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=x;j++){
+                for(int k=1;k<=m;k++){
+                    if(j>=k){
+                        dp[i][j]+=dp[i-1][j-k];
                     }
                 }
             }
         }
-        return dp[x][n];
+        return dp[n][x];
     }
 };
