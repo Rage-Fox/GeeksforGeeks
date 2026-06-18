@@ -1,57 +1,41 @@
-//{ Driver Code Starts
-
-
-#include<bits/stdc++.h>
-using namespace std;
-
-// } Driver Code Ends
-
-
 class Solution {
-public:
-    int FindCoverage(vector<vector<int>>&matrix){
-        // Code here
-        int n=matrix.size();
-        int m=matrix[0].size();
-        int ans=0;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(matrix[i][j]==0){
-                    if(i>0 && matrix[i-1][j]==1){
-                        ans++;
-                    }
-                    if(i<n-1 && matrix[i+1][j]==1){
-                        ans++;
-                    }
-                    if(j>0 && matrix[i][j-1]==1){
-                        ans++;
-                    }
-                    if(j<m-1 && matrix[i][j+1]==1){
-                        ans++;
-                    }
+  public:
+    int findCoverage(vector<vector<int>>& mat) {
+        // code here
+        int n = mat.size();
+        int m = mat[0].size();
+        vector<int> colTotal(m, 0);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                colTotal[j] += mat[i][j];
+            }
+        }
+        vector<int> colPrefix(m, 0);
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            int rowTotal = 0;
+            for (int j = 0; j < m; j++) {
+                rowTotal += mat[i][j];
+            }
+            int leftOnes = 0;
+            for (int j = 0; j < m; j++) {
+                if (mat[i][j] == 0) {
+                    int coverage = 0;
+                    if (leftOnes > 0) coverage++;
+                    if (rowTotal - leftOnes > 0) coverage++;
+                    if (colPrefix[j] > 0) coverage++;
+                    if (colTotal[j] - colPrefix[j] > 0) coverage++;
+                    ans += coverage;
+                } else {
+                    leftOnes++;
+                }
+            }
+            for (int j = 0; j < m; j++) {
+                if (mat[i][j] == 1) {
+                    colPrefix[j]++;
                 }
             }
         }
         return ans;
     }
 };
-
-
-//{ Driver Code Starts.
-int main(){
-	int tc;
-	cin >> tc;
-	while(tc--){
-		int n, m;
-		cin >> n >> m;
-		vector<vector<int>>matrix(n, vector<int>(m, 0));
-		for(int i = 0; i < n; i++)
-			for(int j = 0; j < m; j++)
-				cin >> matrix[i][j];
-		Solution obj;
-		int ans = obj.FindCoverage(matrix);
-		cout << ans << "\n";
-	}
-	return 0;
-}
-// } Driver Code Ends
